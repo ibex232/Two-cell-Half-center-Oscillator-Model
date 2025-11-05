@@ -6,6 +6,7 @@ class HCOCellTemplate(object):
      self.create_soma()
      self.define_soma_dimensions()
      self.define_membrane_properties()
+     self.setup_record()
 
 
 ### Create Cell Soma ###
