@@ -24,7 +24,7 @@ class HCOCellTemplate(object):
     self.soma.cm = 1
 
     self.soma.insert('leak')
-    self.soma.eleak = -65
+    self.soma.eleak = -60
 
     self.soma.insert('na')
     self.soma.ena = 50 # This is just taken from his rn,, check its right
