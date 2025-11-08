@@ -85,25 +85,33 @@ class HCOCellTemplate(object):
         vec.record(getattr(self.soma(.5),'_ref_'+v))
         self.record[v] = vec
     
-  def plot_vars(self,cellid=0,figsize=None):
+  def plot_vars(self,cellid=0, axs=None):
     cellname = 'Cell B' if cellid>0 else 'Cell A'
     clr = 'r' if cellid>0 else 'b'
     t = self.t
-    fig = plt.figure(figsize=figsize)
-    axs = fig.subplots(3,1,sharex=True,gridspec_kw={'hspace':0.1})
+
+    if axs is None:
+      fig, axs = plt.subplots(3, 1, sharex=True, figsize=(6.4, 8), gridspec_kw={'hspace': 0.1})
+    else:
+      fig = None
+    
     axs[0].set_title(cellname)
     axs[0].plot(t,self.record['v'],clr)
     axs[0].set_ylim(-90,60)
     axs[0].set_ylabel('Membrane Voltage (mV)')
+    
+    for i,v in enumerate(self.vars[:-2]):
+      if getattr(self.soma,'gbar_'+v.split('_')[-1])>0:
+        axs[1].plot(t,self.record[v],color=self.clrs[i],label=v)
+
+    axs[1].legend(loc=1)
+    axs[1].set_ylabel('Current (nA/cm$^2$)')
+
     axs[2].plot(t,self.record['cai'],clr)
     axs[2].set_ylim(0,0.4)
     axs[2].set_ylabel('Calcium Pool (mM)')
-    for i,v in enumerate(self.vars[:-2]):
-        if getattr(self.soma,'gbar_'+v.split('_')[-1])>0:
-            axs[1].plot(t,self.record[v],color=self.clrs[i],label=v)
-    axs[1].legend(loc=1)
-    axs[1].set_ylabel('Current (nA/cm$^2$)')
     axs[2].set_xlim(t[0],t[-1])
     axs[2].set_xlabel('Time (ms)')
+
     return fig, axs
 
