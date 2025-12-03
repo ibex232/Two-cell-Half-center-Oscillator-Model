@@ -108,7 +108,6 @@ class HCOCellTemplate(object):
     axs[1].set_ylabel('Current (nA/cm$^2$)')
 
     axs[2].plot(t,self.record['cai'],clr)
-    axs[2].set_ylim(0,0.4)
     axs[2].set_ylabel('Calcium Pool (mM)')
     axs[2].set_xlim(t[0],t[-1])
     axs[2].set_xlabel('Time (ms)')
